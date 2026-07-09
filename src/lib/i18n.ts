@@ -1,7 +1,7 @@
 export type Lang = "ar" | "en"
 
 const ar = {
-  "nav.today": "اليوم",
+  "nav.today": "المتابعة",
   "nav.customers": "العملاء",
 
   "today.title": "مكالمات اليوم",
@@ -155,7 +155,7 @@ const ar = {
 type Key = keyof typeof ar
 
 const en: Record<Key, string> = {
-  "nav.today": "Today",
+  "nav.today": "Follow up",
   "nav.customers": "Customers",
 
   "today.title": "Today's Calls",

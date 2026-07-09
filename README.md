@@ -85,10 +85,6 @@ The repo ships with a GitHub Actions workflow ([`.github/workflows/deploy.yml`](
 - **Hugging Face Spaces** — supported via the "Static" Space type (upload the built `dist/` contents); a bit unconventional for a non-ML app but works and gives it visibility on a different platform
 - **Just run it locally** — since there's no backend, anyone can `git clone` + `npm run dev` and use it entirely offline on their own machine, or `npm run build` and open `dist/index.html` directly
 
-### Why this exists
-
-Built to show a complete, real-world PWA end to end: data modeling, offline-installable app shell, RTL/i18n-aware UI, and a swappable data layer — not just a toy CRUD demo. Part of a portfolio showcasing a range of project types.
-
 ### License
 
 MIT — do whatever you'd like with it.
@@ -144,10 +140,6 @@ npm run dev
 ```
 
 ثم افتح رابط `localhost` الذي يظهر. هذا كل شيء — بدون متغيرات بيئة، بدون حسابات، بدون أي إعداد لخادم خلفي.
-
-### لماذا صُنع هذا التطبيق؟
-
-لعرض تطبيق ويب تقدمي كامل من الألف إلى الياء: تصميم بيانات، تطبيق قابل للتثبيت والعمل دون اتصال، واجهة عربية من اليمين لليسار، وطبقة بيانات قابلة للاستبدال — وليس مجرد نموذج CRUD بسيط. جزء من معرض أعمال يعرض تنوّع المشاريع.
 
 ### الترخيص
 
