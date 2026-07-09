@@ -13,6 +13,7 @@ export interface Customer {
   name: string
   phone: string
   currency: CurrencyCode
+  customCurrencySymbol?: string | null // only meaningful when currency === "OTHER"
   totalOwed: number
   remainingBalance: number
   paymentType: PaymentMethod
@@ -30,18 +31,27 @@ export interface Customer {
 
 export type NewCustomerInput = Pick<
   Customer,
-  "name" | "phone" | "currency" | "totalOwed" | "paymentType" | "paymentTypeOther" | "notes" | "nextContactDate"
+  | "name"
+  | "phone"
+  | "currency"
+  | "customCurrencySymbol"
+  | "totalOwed"
+  | "paymentType"
+  | "paymentTypeOther"
+  | "notes"
+  | "nextContactDate"
 >
 
 export type EditCustomerInput = Pick<
   Customer,
-  "name" | "phone" | "currency" | "paymentType" | "paymentTypeOther" | "notes" | "nextContactDate"
+  "name" | "phone" | "currency" | "customCurrencySymbol" | "paymentType" | "paymentTypeOther" | "notes" | "nextContactDate"
 >
 
 export interface Payment {
   id: string
   amount: number // in this payment's own currency
   currency: CurrencyCode
+  customCurrencySymbol?: string | null // only meaningful when currency === "OTHER"
   exchangeRate?: number // units of customer currency per 1 unit of payment currency; only when currency differs
   convertedAmount: number // amount actually deducted from balance, in the customer's currency
   method: PaymentMethod
@@ -56,7 +66,16 @@ export interface Payment {
 
 export type NewPaymentInput = Pick<
   Payment,
-  "amount" | "currency" | "exchangeRate" | "method" | "methodOther" | "checkType" | "note" | "date" | "dueDate"
+  | "amount"
+  | "currency"
+  | "customCurrencySymbol"
+  | "exchangeRate"
+  | "method"
+  | "methodOther"
+  | "checkType"
+  | "note"
+  | "date"
+  | "dueDate"
 >
 
 /** A manual increase to the amount a customer owes (e.g. they bought something new). */

@@ -6,9 +6,3 @@ const amountFormatter = new Intl.NumberFormat("en-US", {
 export function formatAmount(amount: number): string {
   return amountFormatter.format(amount)
 }
-
-export const paymentMethodLabels: Record<string, string> = {
-  cash: "نقدًا",
-  check: "شيك",
-  other: "أخرى",
-}

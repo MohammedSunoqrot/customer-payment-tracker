@@ -1,3 +1,5 @@
+import type { Lang } from "./i18n"
+
 /**
  * Plain date strings are "YYYY-MM-DD"; datetime strings are "YYYY-MM-DDTHH:mm"
  * (the exact format produced/consumed by <input type="date"|"datetime-local">).
@@ -54,28 +56,6 @@ export function daysOverdue(iso: string): number {
   return Math.max(0, Math.round((b - a) / 86_400_000))
 }
 
-const arabicDateFormatter = new Intl.DateTimeFormat("ar-EG-u-nu-latn", {
-  year: "numeric",
-  month: "long",
-  day: "numeric",
-})
-
-const arabicDateTimeFormatter = new Intl.DateTimeFormat("ar-EG-u-nu-latn", {
-  year: "numeric",
-  month: "long",
-  day: "numeric",
-  hour: "2-digit",
-  minute: "2-digit",
-  hour12: true,
-})
-
-const arabicWeekdayDateFormatter = new Intl.DateTimeFormat("ar-EG-u-nu-latn", {
-  weekday: "long",
-  year: "numeric",
-  month: "long",
-  day: "numeric",
-})
-
 function toDateObject(iso: string): Date {
   const [isoDatePart, timePart] = iso.split("T")
   const [y, m, d] = isoDatePart.split("-").map(Number)
@@ -83,26 +63,33 @@ function toDateObject(iso: string): Date {
   return new Date(y, m - 1, d, h, mi)
 }
 
-export function formatArabicDate(iso: string | null): string {
+function locale(lang: Lang): string {
+  return lang === "ar" ? "ar-EG-u-nu-latn" : "en-US"
+}
+
+export function formatDate(iso: string | null, lang: Lang): string {
   if (!iso) return "—"
-  return arabicDateFormatter.format(toDateObject(iso))
+  return new Intl.DateTimeFormat(locale(lang), { year: "numeric", month: "long", day: "numeric" }).format(toDateObject(iso))
 }
 
-export function formatArabicDateTime(iso: string | null): string {
+export function formatDateTime(iso: string | null, lang: Lang): string {
   if (!iso) return "—"
-  return arabicDateTimeFormatter.format(toDateObject(iso))
+  return new Intl.DateTimeFormat(locale(lang), {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+    hour: "2-digit",
+    minute: "2-digit",
+    hour12: true,
+  }).format(toDateObject(iso))
 }
 
-const arabicTimeFormatter = new Intl.DateTimeFormat("ar-EG-u-nu-latn", {
-  hour: "2-digit",
-  minute: "2-digit",
-  hour12: true,
-})
-
-export function formatArabicTime(iso: string): string {
-  return arabicTimeFormatter.format(toDateObject(iso))
+export function formatTime(iso: string, lang: Lang): string {
+  return new Intl.DateTimeFormat(locale(lang), { hour: "2-digit", minute: "2-digit", hour12: true }).format(toDateObject(iso))
 }
 
-export function formatArabicWeekdayDate(iso: string): string {
-  return arabicWeekdayDateFormatter.format(toDateObject(iso))
+export function formatWeekdayDate(iso: string, lang: Lang): string {
+  return new Intl.DateTimeFormat(locale(lang), { weekday: "long", year: "numeric", month: "long", day: "numeric" }).format(
+    toDateObject(iso),
+  )
 }

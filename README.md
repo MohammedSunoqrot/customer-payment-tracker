@@ -26,10 +26,12 @@ A daily-workflow tool for anyone who needs to call a list of customers to follow
 - **Reschedule** with a specific date *and time*, quick-pick buttons for tomorrow / in 3 days / in a week
 - **Record a payment** — cash, check, or other, with the actual amount deducted from the balance
 - **Checks** get a due date, a personal/endorsed (شخصي / جيرو) type, and can be marked bounced (مرجع) later — which automatically reverses the deduction
-- **Multi-currency, per customer** — each customer has their own currency (₪ / $ / د.أ); paying in a different currency than they're owed in prompts for a manual exchange rate and shows a live converted preview
+- **Multi-currency, per customer** — each customer has their own currency (₪ / $ / د.أ), or pick "Other" and type in any currency symbol/code manually; paying in a different currency than they're owed in prompts for a manual exchange rate and shows a live converted preview
 - **Increase or deduct the amount owed** independently of a payment (e.g. a new purchase, or a discount/write-off), each recorded and shown separately in the activity history
 - **Close / reopen a case** with an optional reason, recorded in history
-- Installable as a real app on iPhone and Android (Add to Home Screen), works offline once loaded, right-to-left Arabic UI throughout
+- **Light/dark mode** — follows your system setting by default, with a manual toggle that's remembered per device
+- **Arabic / English** — a language switch button in the top bar swaps every screen instantly, including full right-to-left ↔ left-to-right layout mirroring (not just translated text)
+- Installable as a real app on iPhone and Android (Add to Home Screen), works offline once loaded
 
 ### Demo vs. the real app
 
@@ -104,10 +106,12 @@ MIT — do whatever you'd like with it.
 - **إعادة الجدولة** بتاريخ ووقت محددين، مع أزرار سريعة لغدًا / بعد 3 أيام / بعد أسبوع
 - **تسجيل دفعة** — نقدًا أو شيك أو غير ذلك، مع خصم المبلغ الفعلي من الرصيد
 - **الشيكات** لها تاريخ استحقاق، ونوع (شخصي / جيرو)، ويمكن تحديدها لاحقًا كـ"مرجع" — مما يعيد المبلغ تلقائيًا إلى الرصيد
-- **عملات متعددة، لكل عميل عملته الخاصة** (₪ / $ / د.أ)؛ الدفع بعملة مختلفة عن عملة العميل يطلب سعر صرف يدوي ويعرض معاينة فورية للمبلغ المحوَّل
+- **عملات متعددة، لكل عميل عملته الخاصة** (₪ / $ / د.أ)، أو اختيار "أخرى" وكتابة رمز أي عملة يدويًا؛ الدفع بعملة مختلفة عن عملة العميل يطلب سعر صرف يدوي ويعرض معاينة فورية للمبلغ المحوَّل
 - **زيادة أو خصم المبلغ المستحق** بشكل مستقل عن الدفعات (مثل شراء جديد أو خصم/إعفاء)، ويُسجَّل كل منهما بشكل منفصل وواضح في سجل الحركات
 - **إغلاق أو إعادة فتح ملف العميل** مع سبب اختياري، يُسجَّل في السجل
-- قابل للتثبيت كتطبيق حقيقي على آيفون وأندرويد (إضافة إلى الشاشة الرئيسية)، يعمل دون اتصال بعد أول تحميل، وواجهة عربية من اليمين لليسار بالكامل
+- **الوضع الفاتح/الداكن** — يتبع إعداد نظام جهازك تلقائيًا، مع إمكانية التبديل يدويًا ويُحفظ الاختيار على كل جهاز
+- **العربية / الإنجليزية** — زر تبديل اللغة في الشريط العلوي يبدّل كل شاشة فورًا، بما في ذلك اتجاه الواجهة بالكامل من اليمين لليسار أو العكس (وليس فقط ترجمة النصوص)
+- قابل للتثبيت كتطبيق حقيقي على آيفون وأندرويد (إضافة إلى الشاشة الرئيسية)، ويعمل دون اتصال بعد أول تحميل
 
 ### الفرق بين هذه النسخة والتطبيق الأصلي
 

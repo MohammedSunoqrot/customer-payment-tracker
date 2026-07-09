@@ -1,5 +1,6 @@
 import { useState } from "react"
-import { currencySymbols, type CurrencyCode } from "../lib/currency"
+import { useLanguage } from "../context/LanguageContext"
+import { resolveCurrencySymbol, type CurrencyCode } from "../lib/currency"
 import { nowISO } from "../lib/date"
 import { formatAmount } from "../lib/format"
 import { recordPayment } from "../lib/actions"
@@ -13,16 +14,20 @@ import { PaymentMethodSelect } from "./PaymentMethodSelect"
 export function RecordPaymentModal({
   customerId,
   customerCurrency,
+  customerCustomCurrencySymbol,
   defaultMethod,
   onClose,
 }: {
   customerId: string
   customerCurrency: CurrencyCode
+  customerCustomCurrencySymbol?: string | null
   defaultMethod: PaymentMethod
   onClose: () => void
 }) {
+  const { t } = useLanguage()
   const [amount, setAmount] = useState("")
   const [currency, setCurrency] = useState<CurrencyCode>(customerCurrency)
+  const [customSymbol, setCustomSymbol] = useState(customerCustomCurrencySymbol ?? "")
   const [exchangeRate, setExchangeRate] = useState("")
   const [method, setMethod] = useState<PaymentMethod>(defaultMethod)
   const [methodOther, setMethodOther] = useState("")
@@ -37,13 +42,16 @@ export function RecordPaymentModal({
   const amountNumber = Number(amount)
   const exchangeRateNumber = Number(exchangeRate)
   const convertedAmount = needsExchangeRate ? amountNumber * exchangeRateNumber : amountNumber
+  const paymentSymbol = resolveCurrencySymbol(currency, customSymbol)
+  const customerSymbol = resolveCurrencySymbol(customerCurrency, customerCustomCurrencySymbol)
 
   const canSave =
     amountNumber > 0 &&
     date &&
     (method !== "other" || methodOther.trim()) &&
     (!isCheck || (dueDate && checkType)) &&
-    (!needsExchangeRate || exchangeRateNumber > 0)
+    (!needsExchangeRate || exchangeRateNumber > 0) &&
+    (currency !== "OTHER" || customSymbol.trim())
 
   async function handleSave() {
     if (!canSave) return
@@ -51,6 +59,7 @@ export function RecordPaymentModal({
     await recordPayment(customerId, {
       amount: amountNumber,
       currency,
+      customCurrencySymbol: currency === "OTHER" ? customSymbol.trim() : undefined,
       exchangeRate: needsExchangeRate ? exchangeRateNumber : undefined,
       method,
       methodOther: method === "other" ? methodOther.trim() : undefined,
@@ -64,47 +73,47 @@ export function RecordPaymentModal({
   }
 
   return (
-    <Modal title="تسجيل دفعة" onClose={onClose}>
+    <Modal title={t("payment.title")} onClose={onClose}>
       <div className="flex flex-col gap-4">
-        <label className="flex flex-col gap-1 text-sm text-stone-600">
-          المبلغ ({currencySymbols[currency]})
+        <label className="flex flex-col gap-1 text-sm text-stone-600 dark:text-stone-300">
+          {t("payment.amount")} ({paymentSymbol})
           <input
             type="number"
             inputMode="decimal"
             value={amount}
             onChange={(e) => setAmount(e.target.value)}
-            className="ltr-nums rounded-lg border border-stone-300 px-3 py-2 text-lg"
+            className="ltr-nums rounded-lg border border-stone-300 px-3 py-2 text-lg dark:border-stone-700 dark:bg-stone-900 dark:text-stone-100"
             placeholder="0"
             autoFocus
           />
         </label>
 
-        <div className="flex flex-col gap-1 text-sm text-stone-600">
-          عملة الدفعة
-          <CurrencySelect value={currency} onChange={setCurrency} />
+        <div className="flex flex-col gap-1 text-sm text-stone-600 dark:text-stone-300">
+          {t("payment.currency")}
+          <CurrencySelect value={currency} customSymbol={customSymbol} onChange={setCurrency} onCustomSymbolChange={setCustomSymbol} />
         </div>
 
         {needsExchangeRate && (
-          <label className="flex flex-col gap-1 text-sm text-stone-600">
-            سعر الصرف (1 {currencySymbols[currency]} = ؟ {currencySymbols[customerCurrency]})
+          <label className="flex flex-col gap-1 text-sm text-stone-600 dark:text-stone-300">
+            {t("payment.exchangeRate")} (1 {paymentSymbol} = ? {customerSymbol})
             <input
               type="number"
               inputMode="decimal"
               value={exchangeRate}
               onChange={(e) => setExchangeRate(e.target.value)}
-              className="ltr-nums rounded-lg border border-stone-300 px-3 py-2"
-              placeholder="مثال: 0.27"
+              className="ltr-nums rounded-lg border border-stone-300 px-3 py-2 dark:border-stone-700 dark:bg-stone-900 dark:text-stone-100"
+              placeholder={t("payment.exchangeRatePlaceholder")}
             />
             {amountNumber > 0 && exchangeRateNumber > 0 && (
-              <span className="ltr-nums text-left text-xs text-stone-500">
-                = {formatAmount(convertedAmount)} {currencySymbols[customerCurrency]} من رصيد العميل
+              <span className="ltr-nums text-left text-xs text-stone-500 dark:text-stone-400">
+                = {formatAmount(convertedAmount)} {customerSymbol} {t("payment.convertedSuffix")}
               </span>
             )}
           </label>
         )}
 
-        <div className="flex flex-col gap-1 text-sm text-stone-600">
-          طريقة الدفع
+        <div className="flex flex-col gap-1 text-sm text-stone-600 dark:text-stone-300">
+          {t("detail.paymentMethod")}
           <PaymentMethodSelect
             value={method}
             otherValue={methodOther}
@@ -114,32 +123,32 @@ export function RecordPaymentModal({
         </div>
 
         {isCheck && (
-          <div className="flex flex-col gap-1 text-sm text-stone-600">
-            نوع الشيك
+          <div className="flex flex-col gap-1 text-sm text-stone-600 dark:text-stone-300">
+            {t("detail.checkType")}
             <CheckTypeSelect value={checkType} onChange={setCheckType} />
           </div>
         )}
 
-        <DateTimeField label="تاريخ ووقت الدفعة" value={date} onChange={setDate} />
+        <DateTimeField label={t("payment.dateTime")} value={date} onChange={setDate} />
 
-        {isCheck && <DateTimeField label="تاريخ ووقت استحقاق الشيك" value={dueDate} onChange={setDueDate} />}
+        {isCheck && <DateTimeField label={t("payment.checkDueDateTime")} value={dueDate} onChange={setDueDate} />}
 
-        <label className="flex flex-col gap-1 text-sm text-stone-600">
-          ملاحظة (اختياري)
+        <label className="flex flex-col gap-1 text-sm text-stone-600 dark:text-stone-300">
+          {t("payment.noteOptional")}
           <textarea
             value={note}
             onChange={(e) => setNote(e.target.value)}
             rows={2}
-            className="rounded-lg border border-stone-300 px-3 py-2"
+            className="rounded-lg border border-stone-300 px-3 py-2 dark:border-stone-700 dark:bg-stone-900 dark:text-stone-100"
           />
         </label>
 
         <button
           onClick={handleSave}
           disabled={saving || !canSave}
-          className="w-full rounded-xl bg-teal-700 py-3 font-medium text-white disabled:opacity-50"
+          className="w-full rounded-xl bg-teal-700 py-3 font-medium text-white disabled:opacity-50 dark:bg-teal-600"
         >
-          {saving ? "جارٍ الحفظ..." : "حفظ الدفعة"}
+          {saving ? t("form.saving") : t("payment.save")}
         </button>
       </div>
     </Modal>
