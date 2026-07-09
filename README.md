@@ -7,14 +7,19 @@ An installable, Arabic-first Progressive Web App for tracking daily customer fol
 > This is a portfolio piece adapted from a private production app I built for real personal use (which syncs across devices via Firebase). This demo version swaps that sync layer for local-only storage so anyone can try it instantly with zero setup.
 
 <p align="center">
-  <img src="screenshots/today.png" width="260" alt="Today view" />
-  <img src="screenshots/customer-detail.png" width="260" alt="Customer detail" />
-  <img src="screenshots/customers-list.png" width="260" alt="Customers list" />
+  <img src="screenshots/ar-today.png" width="260" alt="Today view, Arabic" />
+  <img src="screenshots/en-today.png" width="260" alt="Today view, English" />
 </p>
+<p align="center"><sub>Same data, same app — the language switch flips text <em>and</em> layout direction (RTL ↔ LTR) instantly.</sub></p>
 
 ---
 
 ## English
+
+<p align="center">
+  <img src="screenshots/en-detail.png" width="260" alt="Customer detail, English" />
+  <img src="screenshots/en-customers.png" width="260" alt="Customers list, English" />
+</p>
 
 ### What it does
 
@@ -91,6 +96,11 @@ MIT — do whatever you'd like with it.
 ---
 
 ## العربية
+
+<p align="center">
+  <img src="screenshots/ar-detail.png" width="260" alt="تفاصيل العميل" />
+  <img src="screenshots/ar-customers.png" width="260" alt="قائمة العملاء" />
+</p>
 
 ### ما هو هذا التطبيق؟
 
