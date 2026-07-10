@@ -1,4 +1,4 @@
-import { MessageCircleQuestion, Send, X } from "lucide-react"
+import { Send, X } from "lucide-react"
 import { useEffect, useRef, useState } from "react"
 import { useCustomers } from "../context/CustomersContext"
 import { useLanguage } from "../context/LanguageContext"
@@ -18,10 +18,9 @@ interface DisplayMessage {
   content: string
 }
 
-export function ChatAssistant() {
+export function ChatAssistant({ open, onClose }: { open: boolean; onClose: () => void }) {
   const { lang, t } = useLanguage()
   const { customers } = useCustomers()
-  const [open, setOpen] = useState(false)
   const [messages, setMessages] = useState<DisplayMessage[]>([])
   const [input, setInput] = useState("")
   const [loading, setLoading] = useState(false)
@@ -53,64 +52,54 @@ export function ChatAssistant() {
     }
   }
 
+  if (!open) return null
+
   return (
-    <>
-      <button
-        onClick={() => setOpen(true)}
-        aria-label={t("chat.openAria")}
-        className="absolute bottom-20 end-4 z-40 flex h-14 w-14 items-center justify-center rounded-full bg-teal-700 text-white shadow-lg dark:bg-teal-600"
-      >
-        <MessageCircleQuestion size={24} />
-      </button>
-
-      {open && (
-        <div className="fixed inset-0 z-50 flex items-end justify-center bg-black/40 sm:items-center">
-          <div className="flex h-[80vh] w-full max-w-md flex-col rounded-t-2xl bg-white p-4 pb-[calc(env(safe-area-inset-bottom)+1rem)] dark:bg-stone-900 sm:h-[70vh] sm:rounded-2xl sm:pb-4">
-            <div className="mb-3 flex items-center justify-between">
-              <h2 className="text-lg font-semibold text-stone-800 dark:text-stone-100">{t("chat.title")}</h2>
-              <button onClick={() => setOpen(false)} aria-label={t("modal.closeAria")} className="text-stone-400 dark:text-stone-500">
-                <X size={22} />
-              </button>
-            </div>
-
-            <div ref={scrollRef} className="flex flex-1 flex-col gap-2 overflow-y-auto pb-2">
-              {messages.length === 0 && <p className="text-sm text-stone-400 dark:text-stone-500">{t("chat.explainer")}</p>}
-              {messages.map((m, i) => (
-                <div
-                  key={i}
-                  className={`max-w-[85%] rounded-2xl px-3 py-2 text-sm ${
-                    m.role === "user"
-                      ? "self-end bg-teal-700 text-white dark:bg-teal-600"
-                      : "self-start bg-stone-100 text-stone-700 dark:bg-stone-800 dark:text-stone-300"
-                  }`}
-                >
-                  {m.content}
-                </div>
-              ))}
-              {loading && <p className="self-start text-sm text-stone-400 dark:text-stone-500">{t("chat.thinking")}</p>}
-              {error && <p className="self-start text-sm text-red-600 dark:text-red-400">{error}</p>}
-            </div>
-
-            <div className="mt-2 flex items-center gap-2">
-              <input
-                value={input}
-                onChange={(e) => setInput(e.target.value)}
-                onKeyDown={(e) => e.key === "Enter" && handleSend()}
-                placeholder={t("chat.placeholder")}
-                className="flex-1 rounded-full border border-stone-300 px-4 py-2 text-sm dark:border-stone-700 dark:bg-stone-900 dark:text-stone-100"
-              />
-              <button
-                onClick={handleSend}
-                disabled={loading || !input.trim()}
-                aria-label={t("chat.sendAria")}
-                className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-teal-700 text-white disabled:opacity-50 dark:bg-teal-600"
-              >
-                <Send size={18} />
-              </button>
-            </div>
-          </div>
+    <div className="fixed inset-0 z-50 flex items-end justify-center bg-black/40 sm:items-center">
+      <div className="flex h-[80vh] w-full max-w-md flex-col rounded-t-2xl bg-white p-4 pb-[calc(env(safe-area-inset-bottom)+1rem)] dark:bg-stone-900 sm:h-[70vh] sm:rounded-2xl sm:pb-4">
+        <div className="mb-3 flex items-center justify-between">
+          <h2 className="text-lg font-semibold text-stone-800 dark:text-stone-100">{t("chat.title")}</h2>
+          <button onClick={onClose} aria-label={t("modal.closeAria")} className="text-stone-400 dark:text-stone-500">
+            <X size={22} />
+          </button>
         </div>
-      )}
-    </>
+
+        <div ref={scrollRef} className="flex flex-1 flex-col gap-2 overflow-y-auto pb-2">
+          {messages.length === 0 && <p className="text-sm text-stone-400 dark:text-stone-500">{t("chat.explainer")}</p>}
+          {messages.map((m, i) => (
+            <div
+              key={i}
+              className={`max-w-[85%] rounded-2xl px-3 py-2 text-sm ${
+                m.role === "user"
+                  ? "self-end bg-teal-700 text-white dark:bg-teal-600"
+                  : "self-start bg-stone-100 text-stone-700 dark:bg-stone-800 dark:text-stone-300"
+              }`}
+            >
+              {m.content}
+            </div>
+          ))}
+          {loading && <p className="self-start text-sm text-stone-400 dark:text-stone-500">{t("chat.thinking")}</p>}
+          {error && <p className="self-start text-sm text-red-600 dark:text-red-400">{error}</p>}
+        </div>
+
+        <div className="mt-2 flex items-center gap-2">
+          <input
+            value={input}
+            onChange={(e) => setInput(e.target.value)}
+            onKeyDown={(e) => e.key === "Enter" && handleSend()}
+            placeholder={t("chat.placeholder")}
+            className="flex-1 rounded-full border border-stone-300 px-4 py-2 text-sm dark:border-stone-700 dark:bg-stone-900 dark:text-stone-100"
+          />
+          <button
+            onClick={handleSend}
+            disabled={loading || !input.trim()}
+            aria-label={t("chat.sendAria")}
+            className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-teal-700 text-white disabled:opacity-50 dark:bg-teal-600"
+          >
+            <Send size={18} />
+          </button>
+        </div>
+      </div>
+    </div>
   )
 }

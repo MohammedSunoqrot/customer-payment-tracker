@@ -11,7 +11,7 @@ An installable, Arabic-first Progressive Web App for tracking daily customer fol
 ## English
 
 <p align="center">
-  <img src="screenshots/en-today.png" width="260" alt="Today view, English" />
+  <img src="screenshots/en-today.png" width="260" alt="Follow up view, English" />
   <img src="screenshots/en-detail.png" width="260" alt="Customer detail, English" />
   <img src="screenshots/en-customers.png" width="260" alt="Customers list, English" />
 </p>
@@ -20,7 +20,7 @@ An installable, Arabic-first Progressive Web App for tracking daily customer fol
 
 A daily-workflow tool for anyone who needs to call a list of customers to follow up on outstanding payments — the original use case was a small business tracking who owes money and who still needs a call today.
 
-- **Today view** — see who's due or overdue for a call today, with a date navigator to browse any past or future day
+- **Follow up view** — see who's due or overdue for a call today, with a date navigator to browse any past or future day
 - **Full day-by-day history, never deleted** — reschedule or mark someone contacted and they stay visible on that day's list (grayed out, marked done), instead of disappearing. Browsing a past day always shows exactly what was really on that day's docket
 - **Contacted / not contacted** — a quick per-day marker that resets automatically the next day
 - **Reschedule** with a specific date *and time*, quick-pick buttons for tomorrow / in 3 days / in a week
@@ -29,10 +29,10 @@ A daily-workflow tool for anyone who needs to call a list of customers to follow
 - **Multi-currency, per customer** — each customer has their own currency (₪ / $ / د.أ), or pick "Other" and type in any currency symbol/code manually; paying in a different currency than they're owed in prompts for a manual exchange rate and shows a live converted preview
 - **Increase or deduct the amount owed** independently of a payment (e.g. a new purchase, or a discount/write-off), each recorded and shown separately in the activity history
 - **Close / reopen a case** with an optional reason, recorded in history
-- **Same-time priority sort** — when two or more customers land on the exact same day and time, Today's list breaks the tie by remaining balance (biggest debt first) instead of arbitrary order
+- **Same-time priority sort** — when two or more customers land on the exact same day and time, the Follow up list breaks the tie by remaining balance (biggest debt first) instead of arbitrary order
 - **WhatsApp reminder** — a one-tap button next to each customer sends a prewritten payment reminder via WhatsApp, in the app's current language
 - **CSV import/export** — bulk-add customers from a spreadsheet, or export the full customer list for backup/accounting
-- **AI call plan** — one tap gets a short, prioritized call script for the day. Free, no signup or API key
+- **AI call plan** — one tap gets a short, prioritized call script for the day. Free, no signup or API key (sends customer names/amounts to a free public AI service — see [Tech stack](#tech-stack))
 - **Ask about your data** — a floating chat button answers plain-language questions about your own customers ("Do we have a customer named John?", "How much does Sarah owe?", "When did I last call Khaled?"), scoped to only this app's data
 - **Light/dark mode** — follows your system setting by default, with a manual toggle that's remembered per device
 - **Arabic / English** — a language switch button in the top bar swaps every screen instantly, including full right-to-left ↔ left-to-right layout mirroring (not just translated text)
@@ -47,7 +47,7 @@ A daily-workflow tool for anyone who needs to call a list of customers to follow
 | Backend | None | Firebase (Firestore + Hosting) |
 | Hosting | GitHub Pages (free, static) | Firebase Hosting |
 
-Everything else — every feature above — is identical code, just pointed at a different data layer (see [`src/lib/localDb.ts`](src/lib/localDb.ts) and [`src/lib/actions.ts`](src/lib/actions.ts)).
+The core day-tracking, payments, checks, and multi-currency logic is identical code between the two — just pointed at a different data layer (see [`src/lib/localDb.ts`](src/lib/localDb.ts) and [`src/lib/actions.ts`](src/lib/actions.ts)). The WhatsApp reminder, CSV import/export, AI call plan, and Q&A chatbot were built specifically for this public demo.
 
 ### Install it as an app (iPhone & Android)
 
@@ -96,14 +96,14 @@ The repo ships with a GitHub Actions workflow ([`.github/workflows/deploy.yml`](
 
 ### License
 
-MIT — do whatever you'd like with it.
+Apache License 2.0 — see [`LICENSE`](LICENSE).
 
 ---
 
 ## العربية
 
 <p align="center">
-  <img src="screenshots/ar-today.png" width="260" alt="صفحة اليوم" />
+  <img src="screenshots/ar-today.png" width="260" alt="صفحة المتابعة" />
   <img src="screenshots/ar-detail.png" width="260" alt="تفاصيل العميل" />
   <img src="screenshots/ar-customers.png" width="260" alt="قائمة العملاء" />
 </p>
@@ -116,7 +116,7 @@ MIT — do whatever you'd like with it.
 
 ### ماذا يقدم التطبيق؟
 
-- **صفحة اليوم** — عرض من يجب الاتصال بهم اليوم أو المتأخرين، مع إمكانية التنقل لعرض أي يوم سابق أو قادم
+- **صفحة المتابعة** — عرض من يجب الاتصال بهم اليوم أو المتأخرين، مع إمكانية التنقل لعرض أي يوم سابق أو قادم
 - **سجل كامل يوماً بيوم، لا يُحذف أبداً** — عند إعادة جدولة عميل أو تسجيل الاتصال به، يبقى ظاهرًا في قائمة ذلك اليوم (بلون رمادي وعلامة "تم")، بدلاً من الاختفاء. تصفح أي يوم سابق يعرض دائمًا ما كان مجدولاً فعليًا في ذلك اليوم بالضبط
 - **تم الاتصال / لم يتم الرد** — علامة سريعة يومية تُصفَّر تلقائيًا في اليوم التالي
 - **إعادة الجدولة** بتاريخ ووقت محددين، مع أزرار سريعة لغدًا / بعد 3 أيام / بعد أسبوع
@@ -125,10 +125,10 @@ MIT — do whatever you'd like with it.
 - **عملات متعددة، لكل عميل عملته الخاصة** (₪ / $ / د.أ)، أو اختيار "أخرى" وكتابة رمز أي عملة يدويًا؛ الدفع بعملة مختلفة عن عملة العميل يطلب سعر صرف يدوي ويعرض معاينة فورية للمبلغ المحوَّل
 - **زيادة أو خصم المبلغ المستحق** بشكل مستقل عن الدفعات (مثل شراء جديد أو خصم/إعفاء)، ويُسجَّل كل منهما بشكل منفصل وواضح في سجل الحركات
 - **إغلاق أو إعادة فتح ملف العميل** مع سبب اختياري، يُسجَّل في السجل
-- **ترتيب حسب الأولوية عند تطابق الوقت** — عند وجود أكثر من عميل بنفس اليوم والوقت بالضبط، تُرتَّب قائمة اليوم حسب المبلغ المتبقي (الأكبر أولاً) بدلاً من ترتيب عشوائي
+- **ترتيب حسب الأولوية عند تطابق الوقت** — عند وجود أكثر من عميل بنفس اليوم والوقت بالضبط، تُرتَّب قائمة المتابعة حسب المبلغ المتبقي (الأكبر أولاً) بدلاً من ترتيب عشوائي
 - **تذكير عبر واتساب** — زر بضغطة واحدة بجانب كل عميل يرسل رسالة تذكير بالدفع جاهزة عبر واتساب، بلغة التطبيق الحالية
 - **استيراد وتصدير CSV** — إضافة عملاء دفعة واحدة من ملف جدول بيانات، أو تصدير قائمة العملاء كاملة للنسخ الاحتياطي أو المحاسبة
-- **خطة اتصال بالذكاء الاصطناعي** — بضغطة واحدة تحصل على خطة اتصال قصيرة ومرتبة حسب الأولوية لليوم. مجانية بالكامل، بدون تسجيل أو مفتاح API
+- **خطة اتصال بالذكاء الاصطناعي** — بضغطة واحدة تحصل على خطة اتصال قصيرة ومرتبة حسب الأولوية لليوم. مجانية بالكامل، بدون تسجيل أو مفتاح API (تُرسل أسماء العملاء ومبالغهم إلى خدمة ذكاء اصطناعي عامة مجانية — راجع قسم [التقنيات المستخدمة](#التقنيات-المستخدمة))
 - **اسأل عن بياناتك** — زر محادثة عائم يجيب عن أسئلة بلغة طبيعية حول عملائك ("هل يوجد عميل اسمه أحمد؟"، "كم يتبقى على سارة؟"، "متى آخر مرة اتصلت بخالد؟")، ولا يجيب إلا عن بيانات هذا التطبيق
 - **الوضع الفاتح/الداكن** — يتبع إعداد نظام جهازك تلقائيًا، مع إمكانية التبديل يدويًا ويُحفظ الاختيار على كل جهاز
 - **العربية / الإنجليزية** — زر تبديل اللغة في الشريط العلوي يبدّل كل شاشة فورًا، بما في ذلك اتجاه الواجهة بالكامل من اليمين لليسار أو العكس (وليس فقط ترجمة النصوص)
@@ -143,7 +143,7 @@ MIT — do whatever you'd like with it.
 | الخادم الخلفي | لا يوجد | Firebase (Firestore + Hosting) |
 | الاستضافة | GitHub Pages (مجانية) | Firebase Hosting |
 
-باقي كل شيء — كل ميزة مذكورة أعلاه — هو نفس الكود تمامًا، موجّه فقط إلى طبقة بيانات مختلفة.
+منطق تتبع الأيام والدفعات والشيكات والعملات المتعددة هو نفس الكود تمامًا بين النسختين — موجّه فقط إلى طبقة بيانات مختلفة. أما التذكير عبر واتساب، واستيراد/تصدير CSV، وخطة الاتصال بالذكاء الاصطناعي، ومساعد الأسئلة، فقد بُنيت خصيصًا لهذه النسخة التجريبية العامة.
 
 ### تثبيته كتطبيق (آيفون وأندرويد)
 
@@ -153,6 +153,10 @@ MIT — do whatever you'd like with it.
 - **أندرويد (Chrome):** افتح [النسخة التجريبية](https://MohammedSunoqrot.github.io/customer-payment-tracker/)، اضغط على قائمة **⋮**، ثم **إضافة إلى الشاشة الرئيسية** (أو اضغط على شريط **التثبيت** إن ظهر).
 
 بعدها سيفتح التطبيق بملء الشاشة من أيقونته على الشاشة الرئيسية كأنه تطبيق أصلي، ويستمر بالعمل دون اتصال بعد أول تحميل.
+
+### التقنيات المستخدمة
+
+React 19 + TypeScript + Vite · Tailwind CSS v4 · `vite-plugin-pwa` (تطبيق ويب تقدمي قابل للتثبيت، مع تخزين مؤقت للعمل دون اتصال) · `react-router-dom` (توجيه عبر hash) · أيقونات `lucide-react` · بدون خادم خلفي — مخزن بيانات صغير مبني على `localStorage` باستخدام `useSyncExternalStore` من React. خطة الاتصال بالذكاء الاصطناعي ومساعد الأسئلة يستدعيان نقطة نهاية نصية مجانية ومتوافقة مع OpenAI من [Pollinations.ai](https://pollinations.ai) مباشرة من المتصفح — بدون تسجيل، بدون مفتاح API، وبدون أي خادم من عندنا في المنتصف. أسماء العملاء والمبالغ التي تسأل عنها تُرسل إلى تلك الخدمة الخارجية لإنشاء الرد.
 
 ### كيفية التشغيل بنفسك
 
@@ -165,6 +169,27 @@ npm run dev
 
 ثم افتح رابط `localhost` الذي يظهر. هذا كل شيء — بدون متغيرات بيئة، بدون حسابات، بدون أي إعداد لخادم خلفي.
 
+للبناء من أجل الإنتاج:
+
+```bash
+npm run build   # يُخرج الملفات إلى dist/
+npm run preview # لتشغيل نسخة الإنتاج محليًا
+```
+
+### نشر نسختك الخاصة
+
+يتضمن المستودع سير عمل GitHub Actions ([`.github/workflows/deploy.yml`](.github/workflows/deploy.yml)) يقوم ببناء التطبيق ونشره تلقائيًا على **GitHub Pages** مع كل push إلى `main`. لاستخدامه في نسختك الخاصة (fork):
+
+1. اعمل fork لهذا المستودع
+2. في إعدادات نسختك (Settings → Pages)، اختر "GitHub Actions" كمصدر
+3. حدّث قيمة `repoBase` في [`vite.config.ts`](vite.config.ts) لتطابق اسم مستودعك
+4. ادفع (push) إلى `main` — سير العمل سيبني وينشر تلقائيًا
+
+**طرق أخرى لنشر تطبيق PWA ثابت كهذا**، إن كنت تفضل عدم استخدام GitHub Pages:
+- **Netlify / Vercel / Cloudflare Pages** — اسحب وأفلت مجلد `dist/`، أو اربط المستودع للنشر التلقائي؛ جميعها توفر خططًا مجانية سخية وقد تكون أسهل من GitHub Pages لتطبيقات Vite
+- **Hugging Face Spaces** — مدعوم عبر نوع Space "Static" (ارفع محتويات `dist/` المبنية)؛ غير مألوف قليلاً لتطبيق غير متعلق بالذكاء الاصطناعي لكنه يعمل ويمنح التطبيق ظهورًا على منصة مختلفة
+- **تشغيله محليًا فقط** — بما أنه لا يوجد خادم خلفي، يمكن لأي شخص عمل `git clone` ثم `npm run dev` واستخدامه بالكامل دون اتصال على جهازه، أو `npm run build` وفتح `dist/index.html` مباشرة
+
 ### الترخيص
 
-MIT — استخدمه كما تشاء.
+رخصة Apache 2.0 — راجع ملف [`LICENSE`](LICENSE).

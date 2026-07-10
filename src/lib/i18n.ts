@@ -3,6 +3,7 @@ export type Lang = "ar" | "en"
 const ar = {
   "nav.today": "المتابعة",
   "nav.customers": "العملاء",
+  "nav.chat": "اسأل",
 
   "today.title": "مكالمات اليوم",
   "today.titleOtherDay": "جدول المكالمات",
@@ -164,7 +165,6 @@ const ar = {
   "ai.apiError": "حدث خطأ أثناء التواصل مع الذكاء الاصطناعي. حاول مرة أخرى.",
 
   "chat.title": "اسأل عن بياناتك",
-  "chat.openAria": "فتح مساعد الأسئلة",
   "chat.explainer": "اسأل عن عملائك — مثل \"هل يوجد عميل اسمه أحمد؟\" أو \"كم يتبقى على سارة؟\" أو \"متى آخر مرة تواصلت مع خالد؟\". يجيب فقط بناءً على بيانات هذا التطبيق.",
   "chat.placeholder": "اكتب سؤالك...",
   "chat.sendAria": "إرسال",
@@ -178,6 +178,7 @@ type Key = keyof typeof ar
 const en: Record<Key, string> = {
   "nav.today": "Follow up",
   "nav.customers": "Customers",
+  "nav.chat": "Ask",
 
   "today.title": "Today's Calls",
   "today.titleOtherDay": "Call Schedule",
@@ -339,7 +340,6 @@ const en: Record<Key, string> = {
   "ai.apiError": "Something went wrong talking to the AI. Try again.",
 
   "chat.title": "Ask about your data",
-  "chat.openAria": "Open Q&A assistant",
   "chat.explainer": 'Ask about your customers — like "Do we have a customer named John?", "How much does Sarah owe?", or "When did I last call Khaled?" It only answers using this app\'s data.',
   "chat.placeholder": "Type your question...",
   "chat.sendAria": "Send",
