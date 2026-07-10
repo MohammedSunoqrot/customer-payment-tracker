@@ -1,11 +1,13 @@
-import { Plus, Users } from "lucide-react"
-import { useMemo, useState } from "react"
+import { Download, Plus, Upload, Users } from "lucide-react"
+import { useMemo, useRef, useState, type ChangeEvent } from "react"
 import { Link } from "react-router-dom"
 import { CustomerListItem } from "../components/CustomerListItem"
 import { EmptyState } from "../components/EmptyState"
 import { SearchBar } from "../components/SearchBar"
 import { useCustomers } from "../context/CustomersContext"
 import { useLanguage } from "../context/LanguageContext"
+import { todayISO } from "../lib/date"
+import { exportCustomersCsv, importCustomersCsv } from "../lib/customerCsv"
 import type { CustomerStatus } from "../types"
 
 type StatusFilter = CustomerStatus | "all"
@@ -21,6 +23,30 @@ export function CustomersPage() {
   const { customers } = useCustomers()
   const [search, setSearch] = useState("")
   const [statusFilter, setStatusFilter] = useState<StatusFilter>("active")
+  const fileInputRef = useRef<HTMLInputElement>(null)
+
+  function handleExport() {
+    const csv = exportCustomersCsv(customers)
+    const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" })
+    const url = URL.createObjectURL(blob)
+    const a = document.createElement("a")
+    a.href = url
+    a.download = `customers-${todayISO()}.csv`
+    a.click()
+    URL.revokeObjectURL(url)
+  }
+
+  async function handleImportFile(e: ChangeEvent<HTMLInputElement>) {
+    const file = e.target.files?.[0]
+    e.target.value = ""
+    if (!file) return
+    const text = await file.text()
+    const result = await importCustomersCsv(text)
+    const message = `${result.imported} ${t("customers.importedCount")}${
+      result.skipped > 0 ? ` · ${result.skipped} ${t("customers.skippedCount")}` : ""
+    }`
+    alert(message)
+  }
 
   const filtered = useMemo(() => {
     const term = search.trim().toLowerCase()
@@ -35,13 +61,30 @@ export function CustomersPage() {
     <div className="flex flex-1 flex-col">
       <header className="sticky top-0 flex items-center justify-between bg-stone-50 px-4 pb-2 pt-5 dark:bg-stone-950">
         <h1 className="text-xl font-semibold text-stone-800 dark:text-stone-100">{t("customers.title")}</h1>
-        <Link
-          to="/customers/new"
-          className="flex h-10 w-10 items-center justify-center rounded-full bg-teal-700 text-white dark:bg-teal-600"
-          aria-label={t("customers.addAria")}
-        >
-          <Plus size={20} />
-        </Link>
+        <div className="flex items-center gap-1">
+          <button
+            onClick={handleExport}
+            aria-label={t("customers.exportAria")}
+            className="flex h-10 w-10 items-center justify-center rounded-full text-stone-500 dark:text-stone-400"
+          >
+            <Download size={19} />
+          </button>
+          <button
+            onClick={() => fileInputRef.current?.click()}
+            aria-label={t("customers.importAria")}
+            className="flex h-10 w-10 items-center justify-center rounded-full text-stone-500 dark:text-stone-400"
+          >
+            <Upload size={19} />
+          </button>
+          <input ref={fileInputRef} type="file" accept=".csv,text/csv" className="hidden" onChange={handleImportFile} />
+          <Link
+            to="/customers/new"
+            className="flex h-10 w-10 items-center justify-center rounded-full bg-teal-700 text-white dark:bg-teal-600"
+            aria-label={t("customers.addAria")}
+          >
+            <Plus size={20} />
+          </Link>
+        </div>
       </header>
 
       <div className="flex flex-col gap-3 px-4 pb-2">

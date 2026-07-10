@@ -29,6 +29,10 @@ A daily-workflow tool for anyone who needs to call a list of customers to follow
 - **Multi-currency, per customer** — each customer has their own currency (₪ / $ / د.أ), or pick "Other" and type in any currency symbol/code manually; paying in a different currency than they're owed in prompts for a manual exchange rate and shows a live converted preview
 - **Increase or deduct the amount owed** independently of a payment (e.g. a new purchase, or a discount/write-off), each recorded and shown separately in the activity history
 - **Close / reopen a case** with an optional reason, recorded in history
+- **Same-time priority sort** — when two or more customers land on the exact same day and time, Today's list breaks the tie by remaining balance (biggest debt first) instead of arbitrary order
+- **WhatsApp reminder** — a one-tap button next to each customer sends a prewritten payment reminder via WhatsApp, in the app's current language
+- **CSV import/export** — bulk-add customers from a spreadsheet, or export the full customer list for backup/accounting
+- **AI call plan** *(optional)* — bring your own Anthropic API key (stored on-device only) to get a short, prioritized call script for the day, generated on demand
 - **Light/dark mode** — follows your system setting by default, with a manual toggle that's remembered per device
 - **Arabic / English** — a language switch button in the top bar swaps every screen instantly, including full right-to-left ↔ left-to-right layout mirroring (not just translated text)
 - Installable as a real app on iPhone and Android (Add to Home Screen), works offline once loaded
@@ -55,7 +59,7 @@ It then launches full-screen from your home screen icon like a native app, and k
 
 ### Tech stack
 
-React 19 + TypeScript + Vite · Tailwind CSS v4 · `vite-plugin-pwa` (installable PWA, offline caching) · `react-router-dom` (hash routing) · `lucide-react` icons · zero backend — a small `localStorage`-backed store using React's `useSyncExternalStore`.
+React 19 + TypeScript + Vite · Tailwind CSS v4 · `vite-plugin-pwa` (installable PWA, offline caching) · `react-router-dom` (hash routing) · `lucide-react` icons · zero backend — a small `localStorage`-backed store using React's `useSyncExternalStore`. The optional AI call plan calls the Anthropic API (`@anthropic-ai/sdk`) directly from the browser with a user-supplied key — lazy-loaded so it never ships to users who don't use the feature.
 
 ### Run it yourself
 
@@ -120,6 +124,10 @@ MIT — do whatever you'd like with it.
 - **عملات متعددة، لكل عميل عملته الخاصة** (₪ / $ / د.أ)، أو اختيار "أخرى" وكتابة رمز أي عملة يدويًا؛ الدفع بعملة مختلفة عن عملة العميل يطلب سعر صرف يدوي ويعرض معاينة فورية للمبلغ المحوَّل
 - **زيادة أو خصم المبلغ المستحق** بشكل مستقل عن الدفعات (مثل شراء جديد أو خصم/إعفاء)، ويُسجَّل كل منهما بشكل منفصل وواضح في سجل الحركات
 - **إغلاق أو إعادة فتح ملف العميل** مع سبب اختياري، يُسجَّل في السجل
+- **ترتيب حسب الأولوية عند تطابق الوقت** — عند وجود أكثر من عميل بنفس اليوم والوقت بالضبط، تُرتَّب قائمة اليوم حسب المبلغ المتبقي (الأكبر أولاً) بدلاً من ترتيب عشوائي
+- **تذكير عبر واتساب** — زر بضغطة واحدة بجانب كل عميل يرسل رسالة تذكير بالدفع جاهزة عبر واتساب، بلغة التطبيق الحالية
+- **استيراد وتصدير CSV** — إضافة عملاء دفعة واحدة من ملف جدول بيانات، أو تصدير قائمة العملاء كاملة للنسخ الاحتياطي أو المحاسبة
+- **خطة اتصال بالذكاء الاصطناعي** *(اختياري)* — استخدم مفتاح Anthropic API الخاص بك (يُحفظ على جهازك فقط) للحصول على خطة اتصال قصيرة ومرتبة حسب الأولوية لليوم، تُنشأ عند الطلب
 - **الوضع الفاتح/الداكن** — يتبع إعداد نظام جهازك تلقائيًا، مع إمكانية التبديل يدويًا ويُحفظ الاختيار على كل جهاز
 - **العربية / الإنجليزية** — زر تبديل اللغة في الشريط العلوي يبدّل كل شاشة فورًا، بما في ذلك اتجاه الواجهة بالكامل من اليمين لليسار أو العكس (وليس فقط ترجمة النصوص)
 - قابل للتثبيت كتطبيق حقيقي على آيفون وأندرويد (إضافة إلى الشاشة الرئيسية)، ويعمل دون اتصال بعد أول تحميل

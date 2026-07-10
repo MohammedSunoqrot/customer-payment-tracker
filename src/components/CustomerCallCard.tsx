@@ -1,10 +1,11 @@
-import { CheckCircle2, Phone } from "lucide-react"
+import { CheckCircle2, MessageCircle, Phone } from "lucide-react"
 import { useNavigate } from "react-router-dom"
 import { useLanguage } from "../context/LanguageContext"
 import { resolveCurrencySymbol } from "../lib/currency"
 import { daysOverdue, formatTime, isOverdue } from "../lib/date"
 import { formatAmount } from "../lib/format"
 import { telHref } from "../lib/phone"
+import { buildWhatsAppReminderMessage, whatsappHref } from "../lib/whatsapp"
 import type { DayViewItem } from "../hooks/useDayView"
 import { isPendingItem } from "../hooks/useDayView"
 import { Badge } from "./Badge"
@@ -61,6 +62,26 @@ export function CustomerCallCard({ item, isToday }: { item: DayViewItem; isToday
         </span>
       </div>
       {pending && isToday && <ContactStatusButtons customer={customer} compact />}
+      {pending && (
+        <a
+          href={whatsappHref(
+            customer.phone,
+            buildWhatsAppReminderMessage(
+              customer.name,
+              customer.remainingBalance,
+              resolveCurrencySymbol(customer.currency, customer.customCurrencySymbol),
+              lang,
+            ),
+          )}
+          target="_blank"
+          rel="noreferrer"
+          onClick={(e) => e.stopPropagation()}
+          className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-emerald-600 text-white dark:bg-emerald-500"
+          aria-label={t("card.whatsappAria")}
+        >
+          <MessageCircle size={20} />
+        </a>
+      )}
       <a
         href={telHref(customer.phone)}
         onClick={(e) => e.stopPropagation()}

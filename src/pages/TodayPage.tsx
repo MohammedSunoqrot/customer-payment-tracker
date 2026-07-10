@@ -1,5 +1,6 @@
-import { CalendarCheck2 } from "lucide-react"
+import { CalendarCheck2, Sparkles } from "lucide-react"
 import { useState } from "react"
+import { AiDayPlanModal } from "../components/AiDayPlanModal"
 import { CustomerCallCard } from "../components/CustomerCallCard"
 import { DayNav } from "../components/DayNav"
 import { EmptyState } from "../components/EmptyState"
@@ -10,6 +11,7 @@ import { formatWeekdayDate, todayISO } from "../lib/date"
 export function TodayPage() {
   const { lang, t } = useLanguage()
   const [selectedDate, setSelectedDate] = useState(todayISO())
+  const [showAiPlan, setShowAiPlan] = useState(false)
   const items = useDayView(selectedDate)
   const isToday = selectedDate === todayISO()
   const pendingCount = items.filter(isPendingItem).length
@@ -25,6 +27,15 @@ export function TodayPage() {
           {items.length > pendingCount ? ` · ${items.length - pendingCount} ${t("today.doneSuffix")}` : ""}
         </p>
         <DayNav selectedDate={selectedDate} onChange={setSelectedDate} />
+        {isToday && pendingCount > 0 && (
+          <button
+            onClick={() => setShowAiPlan(true)}
+            className="flex w-fit items-center gap-1.5 rounded-full border border-teal-700 px-3 py-1.5 text-sm font-medium text-teal-700 dark:border-teal-500 dark:text-teal-400"
+          >
+            <Sparkles size={15} />
+            {t("ai.title")}
+          </button>
+        )}
       </header>
 
       {items.length === 0 ? (
@@ -36,6 +47,8 @@ export function TodayPage() {
           ))}
         </div>
       )}
+
+      {showAiPlan && <AiDayPlanModal items={items} onClose={() => setShowAiPlan(false)} />}
     </div>
   )
 }

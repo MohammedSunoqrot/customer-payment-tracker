@@ -19,6 +19,7 @@ const ar = {
   "card.day": "يوم",
   "card.days": "يوم",
   "card.callAria": "اتصال",
+  "card.whatsappAria": "إرسال تذكير عبر واتساب",
 
   "action.contacted": "تم الاتصال",
   "action.not_contacted": "لم يتم الرد",
@@ -32,6 +33,10 @@ const ar = {
   "customers.addAria": "إضافة عميل",
   "customers.empty": "لا يوجد عملاء",
   "customers.search": "بحث بالاسم أو رقم الجوال",
+  "customers.exportAria": "تصدير العملاء كملف CSV",
+  "customers.importAria": "استيراد عملاء من ملف CSV",
+  "customers.importedCount": "عميل تم استيراده",
+  "customers.skippedCount": "تم تجاهله",
   "filter.active": "نشط",
   "filter.closed": "مغلق",
   "filter.all": "الكل",
@@ -150,6 +155,15 @@ const ar = {
 
   "banner.themeAria": "تبديل المظهر",
   "banner.langAria": "تبديل اللغة",
+
+  "ai.title": "خطة الاتصال الذكية",
+  "ai.explainer": "يستخدم مفتاح Anthropic API الخاص بك، يُرسل مباشرة من متصفحك إلى Anthropic — لا يمر عبر أي خادم تديره هذه النسخة. يُحفظ المفتاح على هذا الجهاز فقط.",
+  "ai.apiKeyLabel": "مفتاح Anthropic API",
+  "ai.generate": "إنشاء خطة الاتصال",
+  "ai.generating": "جارٍ التفكير...",
+  "ai.invalidKey": "تم رفض مفتاح API هذا. تحقق منه وحاول مرة أخرى.",
+  "ai.rateLimited": "طلبات كثيرة جدًا — حاول مرة أخرى بعد قليل.",
+  "ai.apiError": "حدث خطأ أثناء التواصل مع الذكاء الاصطناعي. حاول مرة أخرى.",
 } as const
 
 type Key = keyof typeof ar
@@ -173,6 +187,7 @@ const en: Record<Key, string> = {
   "card.day": "day",
   "card.days": "days",
   "card.callAria": "Call",
+  "card.whatsappAria": "Send WhatsApp reminder",
 
   "action.contacted": "Contacted",
   "action.not_contacted": "Not answered",
@@ -186,6 +201,10 @@ const en: Record<Key, string> = {
   "customers.addAria": "Add customer",
   "customers.empty": "No customers",
   "customers.search": "Search by name or phone",
+  "customers.exportAria": "Export customers as CSV",
+  "customers.importAria": "Import customers from CSV",
+  "customers.importedCount": "customers imported",
+  "customers.skippedCount": "skipped",
   "filter.active": "Active",
   "filter.closed": "Closed",
   "filter.all": "All",
@@ -304,6 +323,15 @@ const en: Record<Key, string> = {
 
   "banner.themeAria": "Toggle theme",
   "banner.langAria": "Switch language",
+
+  "ai.title": "AI call plan",
+  "ai.explainer": "Uses your own Anthropic API key, sent directly from your browser to Anthropic — never touches any server this app runs. Stored only on this device.",
+  "ai.apiKeyLabel": "Anthropic API key",
+  "ai.generate": "Generate call plan",
+  "ai.generating": "Thinking...",
+  "ai.invalidKey": "That API key was rejected. Check it and try again.",
+  "ai.rateLimited": "Too many requests — try again in a moment.",
+  "ai.apiError": "Something went wrong talking to the AI. Try again.",
 }
 
 export const translations: Record<Lang, Record<Key, string>> = { ar, en }

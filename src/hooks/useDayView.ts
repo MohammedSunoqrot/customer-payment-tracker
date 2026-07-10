@@ -62,7 +62,10 @@ export function useDayView(selectedDate: string): DayViewItem[] {
       if (aPending !== bPending) return aPending ? -1 : 1
       const aKey = aPending ? (a.customer.nextContactDate ?? "") : (a.entry?.actionAt ?? "")
       const bKey = bPending ? (b.customer.nextContactDate ?? "") : (b.entry?.actionAt ?? "")
-      return aKey.localeCompare(bKey)
+      const byTime = aKey.localeCompare(bKey)
+      if (byTime !== 0) return byTime
+      // Same day and exact same time: call the bigger balance first.
+      return b.customer.remainingBalance - a.customer.remainingBalance
     })
   }, [customers, entries, selectedDate, isToday])
 }

@@ -3,6 +3,7 @@ import {
   ArrowRight,
   CalendarClock,
   CircleCheck,
+  MessageCircle,
   MinusCircle,
   PlusCircle,
   Pencil,
@@ -27,6 +28,7 @@ import { resolveCurrencySymbol } from "../lib/currency"
 import { formatDateTime, isOverdue } from "../lib/date"
 import { formatAmount } from "../lib/format"
 import { telHref } from "../lib/phone"
+import { buildWhatsAppReminderMessage, whatsappHref } from "../lib/whatsapp"
 
 type OpenModal = "reschedule" | "payment" | "close" | "reopen" | "charge" | "deduction" | null
 
@@ -59,12 +61,23 @@ export function CustomerDetailPage() {
         </button>
         <div className="flex min-w-0 flex-1 flex-col">
           <span className="truncate text-lg font-semibold text-stone-800 dark:text-stone-100">{customer.name}</span>
-          <a
-            href={telHref(customer.phone)}
-            className="ltr-nums flex items-center gap-1 text-left text-sm text-teal-700 dark:text-teal-400"
-          >
-            <Phone size={13} /> {customer.phone}
-          </a>
+          <div className="flex items-center gap-3">
+            <a
+              href={telHref(customer.phone)}
+              className="ltr-nums flex items-center gap-1 text-left text-sm text-teal-700 dark:text-teal-400"
+            >
+              <Phone size={13} /> {customer.phone}
+            </a>
+            <a
+              href={whatsappHref(customer.phone, buildWhatsAppReminderMessage(customer.name, customer.remainingBalance, currencySymbol, lang))}
+              target="_blank"
+              rel="noreferrer"
+              className="flex items-center gap-1 text-sm text-emerald-600 dark:text-emerald-400"
+              aria-label={t("card.whatsappAria")}
+            >
+              <MessageCircle size={13} />
+            </a>
+          </div>
         </div>
         <Link to={`/customers/${customer.id}/edit`} className="text-stone-400 dark:text-stone-500" aria-label={t("detail.editAria")}>
           <Pencil size={20} />
