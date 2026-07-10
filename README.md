@@ -6,17 +6,12 @@ An installable, Arabic-first Progressive Web App for tracking daily customer fol
 
 > This is a portfolio piece adapted from a private production app I built for real personal use (which syncs across devices via Firebase). This demo version swaps that sync layer for local-only storage so anyone can try it instantly with zero setup.
 
-<p align="center">
-  <img src="screenshots/ar-today.png" width="260" alt="Today view, Arabic" />
-  <img src="screenshots/en-today.png" width="260" alt="Today view, English" />
-</p>
-<p align="center"><sub>Same data, same app — the language switch flips text <em>and</em> layout direction (RTL ↔ LTR) instantly.</sub></p>
-
 ---
 
 ## English
 
 <p align="center">
+  <img src="screenshots/en-today.png" width="260" alt="Today view, English" />
   <img src="screenshots/en-detail.png" width="260" alt="Customer detail, English" />
   <img src="screenshots/en-customers.png" width="260" alt="Customers list, English" />
 </p>
@@ -48,6 +43,15 @@ A daily-workflow tool for anyone who needs to call a list of customers to follow
 | Hosting | GitHub Pages (free, static) | Firebase Hosting |
 
 Everything else — every feature above — is identical code, just pointed at a different data layer (see [`src/lib/localDb.ts`](src/lib/localDb.ts) and [`src/lib/actions.ts`](src/lib/actions.ts)).
+
+### Install it as an app (iPhone & Android)
+
+No app store needed — it's a PWA, so it installs straight from the browser:
+
+- **iPhone (Safari):** open the [live demo](https://MohammedSunoqrot.github.io/customer-payment-tracker/), tap the **Share** icon, then **Add to Home Screen**.
+- **Android (Chrome):** open the [live demo](https://MohammedSunoqrot.github.io/customer-payment-tracker/), tap the **⋮** menu, then **Add to Home screen** (or tap the **Install** banner if it appears).
+
+It then launches full-screen from your home screen icon like a native app, and keeps working offline after the first load.
 
 ### Tech stack
 
@@ -94,6 +98,7 @@ MIT — do whatever you'd like with it.
 ## العربية
 
 <p align="center">
+  <img src="screenshots/ar-today.png" width="260" alt="صفحة اليوم" />
   <img src="screenshots/ar-detail.png" width="260" alt="تفاصيل العميل" />
   <img src="screenshots/ar-customers.png" width="260" alt="قائمة العملاء" />
 </p>
@@ -129,6 +134,15 @@ MIT — do whatever you'd like with it.
 | الاستضافة | GitHub Pages (مجانية) | Firebase Hosting |
 
 باقي كل شيء — كل ميزة مذكورة أعلاه — هو نفس الكود تمامًا، موجّه فقط إلى طبقة بيانات مختلفة.
+
+### تثبيته كتطبيق (آيفون وأندرويد)
+
+لا حاجة لأي متجر تطبيقات — التطبيق يُثبَّت مباشرة من المتصفح:
+
+- **آيفون (Safari):** افتح [النسخة التجريبية](https://MohammedSunoqrot.github.io/customer-payment-tracker/)، اضغط على أيقونة **المشاركة**، ثم **إضافة إلى الشاشة الرئيسية**.
+- **أندرويد (Chrome):** افتح [النسخة التجريبية](https://MohammedSunoqrot.github.io/customer-payment-tracker/)، اضغط على قائمة **⋮**، ثم **إضافة إلى الشاشة الرئيسية** (أو اضغط على شريط **التثبيت** إن ظهر).
+
+بعدها سيفتح التطبيق بملء الشاشة من أيقونته على الشاشة الرئيسية كأنه تطبيق أصلي، ويستمر بالعمل دون اتصال بعد أول تحميل.
 
 ### كيفية التشغيل بنفسك
 
