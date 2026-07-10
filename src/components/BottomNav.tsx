@@ -15,7 +15,7 @@ export function BottomNav() {
 
   return (
     <>
-      <nav className="grid grid-cols-3 border-t border-stone-200 bg-white pb-[env(safe-area-inset-bottom)] dark:border-stone-800 dark:bg-stone-900">
+      <nav className="fixed inset-x-0 bottom-0 z-40 mx-auto grid max-w-md grid-cols-3 border-t border-stone-200 bg-white pb-[env(safe-area-inset-bottom)] dark:border-stone-800 dark:bg-stone-900">
         {navItems.map(({ to, key, icon: Icon, end }) => (
           <NavLink
             key={to}
