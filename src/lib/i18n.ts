@@ -157,13 +157,20 @@ const ar = {
   "banner.langAria": "تبديل اللغة",
 
   "ai.title": "خطة الاتصال الذكية",
-  "ai.explainer": "يستخدم مفتاح Anthropic API الخاص بك، يُرسل مباشرة من متصفحك إلى Anthropic — لا يمر عبر أي خادم تديره هذه النسخة. يُحفظ المفتاح على هذا الجهاز فقط.",
-  "ai.apiKeyLabel": "مفتاح Anthropic API",
+  "ai.explainer": "مجانية بالكامل، بدون تسجيل أو مفتاح API — تُرسل أسماء العملاء ومبالغهم إلى خدمة ذكاء اصطناعي عامة مجانية (Pollinations.ai) لإنشاء الخطة.",
   "ai.generate": "إنشاء خطة الاتصال",
   "ai.generating": "جارٍ التفكير...",
-  "ai.invalidKey": "تم رفض مفتاح API هذا. تحقق منه وحاول مرة أخرى.",
   "ai.rateLimited": "طلبات كثيرة جدًا — حاول مرة أخرى بعد قليل.",
   "ai.apiError": "حدث خطأ أثناء التواصل مع الذكاء الاصطناعي. حاول مرة أخرى.",
+
+  "chat.title": "اسأل عن بياناتك",
+  "chat.openAria": "فتح مساعد الأسئلة",
+  "chat.explainer": "اسأل عن عملائك — مثل \"هل يوجد عميل اسمه أحمد؟\" أو \"كم يتبقى على سارة؟\" أو \"متى آخر مرة تواصلت مع خالد؟\". يجيب فقط بناءً على بيانات هذا التطبيق.",
+  "chat.placeholder": "اكتب سؤالك...",
+  "chat.sendAria": "إرسال",
+  "chat.thinking": "جارٍ البحث...",
+  "chat.error": "حدث خطأ. حاول مرة أخرى.",
+  "chat.rateLimited": "طلبات كثيرة جدًا — حاول مرة أخرى بعد قليل.",
 } as const
 
 type Key = keyof typeof ar
@@ -325,13 +332,20 @@ const en: Record<Key, string> = {
   "banner.langAria": "Switch language",
 
   "ai.title": "AI call plan",
-  "ai.explainer": "Uses your own Anthropic API key, sent directly from your browser to Anthropic — never touches any server this app runs. Stored only on this device.",
-  "ai.apiKeyLabel": "Anthropic API key",
+  "ai.explainer": "Completely free, no signup or API key — customer names and amounts are sent to a free public AI service (Pollinations.ai) to generate the plan.",
   "ai.generate": "Generate call plan",
   "ai.generating": "Thinking...",
-  "ai.invalidKey": "That API key was rejected. Check it and try again.",
   "ai.rateLimited": "Too many requests — try again in a moment.",
   "ai.apiError": "Something went wrong talking to the AI. Try again.",
+
+  "chat.title": "Ask about your data",
+  "chat.openAria": "Open Q&A assistant",
+  "chat.explainer": 'Ask about your customers — like "Do we have a customer named John?", "How much does Sarah owe?", or "When did I last call Khaled?" It only answers using this app\'s data.',
+  "chat.placeholder": "Type your question...",
+  "chat.sendAria": "Send",
+  "chat.thinking": "Looking that up...",
+  "chat.error": "Something went wrong. Try again.",
+  "chat.rateLimited": "Too many requests — try again in a moment.",
 }
 
 export const translations: Record<Lang, Record<Key, string>> = { ar, en }

@@ -32,7 +32,8 @@ A daily-workflow tool for anyone who needs to call a list of customers to follow
 - **Same-time priority sort** — when two or more customers land on the exact same day and time, Today's list breaks the tie by remaining balance (biggest debt first) instead of arbitrary order
 - **WhatsApp reminder** — a one-tap button next to each customer sends a prewritten payment reminder via WhatsApp, in the app's current language
 - **CSV import/export** — bulk-add customers from a spreadsheet, or export the full customer list for backup/accounting
-- **AI call plan** *(optional)* — bring your own Anthropic API key (stored on-device only) to get a short, prioritized call script for the day, generated on demand
+- **AI call plan** — one tap gets a short, prioritized call script for the day. Free, no signup or API key
+- **Ask about your data** — a floating chat button answers plain-language questions about your own customers ("Do we have a customer named John?", "How much does Sarah owe?", "When did I last call Khaled?"), scoped to only this app's data
 - **Light/dark mode** — follows your system setting by default, with a manual toggle that's remembered per device
 - **Arabic / English** — a language switch button in the top bar swaps every screen instantly, including full right-to-left ↔ left-to-right layout mirroring (not just translated text)
 - Installable as a real app on iPhone and Android (Add to Home Screen), works offline once loaded
@@ -59,7 +60,7 @@ It then launches full-screen from your home screen icon like a native app, and k
 
 ### Tech stack
 
-React 19 + TypeScript + Vite · Tailwind CSS v4 · `vite-plugin-pwa` (installable PWA, offline caching) · `react-router-dom` (hash routing) · `lucide-react` icons · zero backend — a small `localStorage`-backed store using React's `useSyncExternalStore`. The optional AI call plan calls the Anthropic API (`@anthropic-ai/sdk`) directly from the browser with a user-supplied key — lazy-loaded so it never ships to users who don't use the feature.
+React 19 + TypeScript + Vite · Tailwind CSS v4 · `vite-plugin-pwa` (installable PWA, offline caching) · `react-router-dom` (hash routing) · `lucide-react` icons · zero backend — a small `localStorage`-backed store using React's `useSyncExternalStore`. The AI call plan and chat assistant call [Pollinations.ai](https://pollinations.ai)'s free, keyless, OpenAI-compatible text endpoint directly from the browser — no signup, no API key, no server of ours in between. Customer names and amounts you ask about are sent to that third-party service to generate a response.
 
 ### Run it yourself
 
@@ -127,7 +128,8 @@ MIT — do whatever you'd like with it.
 - **ترتيب حسب الأولوية عند تطابق الوقت** — عند وجود أكثر من عميل بنفس اليوم والوقت بالضبط، تُرتَّب قائمة اليوم حسب المبلغ المتبقي (الأكبر أولاً) بدلاً من ترتيب عشوائي
 - **تذكير عبر واتساب** — زر بضغطة واحدة بجانب كل عميل يرسل رسالة تذكير بالدفع جاهزة عبر واتساب، بلغة التطبيق الحالية
 - **استيراد وتصدير CSV** — إضافة عملاء دفعة واحدة من ملف جدول بيانات، أو تصدير قائمة العملاء كاملة للنسخ الاحتياطي أو المحاسبة
-- **خطة اتصال بالذكاء الاصطناعي** *(اختياري)* — استخدم مفتاح Anthropic API الخاص بك (يُحفظ على جهازك فقط) للحصول على خطة اتصال قصيرة ومرتبة حسب الأولوية لليوم، تُنشأ عند الطلب
+- **خطة اتصال بالذكاء الاصطناعي** — بضغطة واحدة تحصل على خطة اتصال قصيرة ومرتبة حسب الأولوية لليوم. مجانية بالكامل، بدون تسجيل أو مفتاح API
+- **اسأل عن بياناتك** — زر محادثة عائم يجيب عن أسئلة بلغة طبيعية حول عملائك ("هل يوجد عميل اسمه أحمد؟"، "كم يتبقى على سارة؟"، "متى آخر مرة اتصلت بخالد؟")، ولا يجيب إلا عن بيانات هذا التطبيق
 - **الوضع الفاتح/الداكن** — يتبع إعداد نظام جهازك تلقائيًا، مع إمكانية التبديل يدويًا ويُحفظ الاختيار على كل جهاز
 - **العربية / الإنجليزية** — زر تبديل اللغة في الشريط العلوي يبدّل كل شاشة فورًا، بما في ذلك اتجاه الواجهة بالكامل من اليمين لليسار أو العكس (وليس فقط ترجمة النصوص)
 - قابل للتثبيت كتطبيق حقيقي على آيفون وأندرويد (إضافة إلى الشاشة الرئيسية)، ويعمل دون اتصال بعد أول تحميل

@@ -1,75 +1,51 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { useLanguage } from "../context/LanguageContext"
-import { resolveCurrencySymbol } from "../lib/currency"
-import { daysOverdue, formatTime, isOverdue } from "../lib/date"
-import { formatAmount } from "../lib/format"
-import { AiRequestError, generateDayPlan } from "../lib/aiClient"
-import { getStoredApiKey, setStoredApiKey } from "../lib/aiKey"
+import { buildCustomersContext } from "../lib/aiContext"
+import { chatCompletion, LlmRequestError } from "../lib/llm"
 import { isPendingItem, type DayViewItem } from "../hooks/useDayView"
 import { Modal } from "./Modal"
 
-function buildItemsSummary(items: DayViewItem[], lang: ReturnType<typeof useLanguage>["lang"]): string {
-  const lines = items.filter(isPendingItem).map(({ customer }) => {
-    const symbol = resolveCurrencySymbol(customer.currency, customer.customCurrencySymbol)
-    const amount = `${formatAmount(customer.remainingBalance)} ${symbol}`
-    const timing =
-      customer.nextContactDate && isOverdue(customer.nextContactDate)
-        ? `overdue by ${daysOverdue(customer.nextContactDate)} days`
-        : customer.nextContactDate
-          ? `due at ${formatTime(customer.nextContactDate, lang)}`
-          : "due today"
-    return `- ${customer.name}: ${amount} remaining, ${timing}`
-  })
-  return lines.join("\n")
-}
+const SYSTEM_PROMPT = {
+  ar: "أنت مساعد يساعد صاحب عمل صغير على تحديد أولويات مكالمات متابعة الدفعات اليومية. اكتب خطة موجزة من 2-4 جمل: من يجب الاتصال به أولاً ولماذا، بناءً على المبلغ المتبقي ومدة التأخير. لا تستخدم تنسيق ماركداون، نص عادي فقط.",
+  en: "You help a small business owner prioritize their daily payment follow-up calls. Write a brief 2-4 sentence plan: who to call first and why, based on remaining balance and how overdue they are. No markdown, plain text only.",
+} as const
 
 export function AiDayPlanModal({ items, onClose }: { items: DayViewItem[]; onClose: () => void }) {
   const { lang, t } = useLanguage()
-  const [apiKey, setApiKey] = useState(getStoredApiKey() ?? "")
   const [plan, setPlan] = useState<string | null>(null)
   const [error, setError] = useState<string | null>(null)
   const [loading, setLoading] = useState(false)
 
-  async function handleGenerate() {
-    const key = apiKey.trim()
-    if (!key) return
+  async function generate() {
     setError(null)
-    setPlan(null)
     setLoading(true)
     try {
-      setStoredApiKey(key)
-      const summary = buildItemsSummary(items, lang)
-      const result = await generateDayPlan(key, summary, lang)
-      setPlan(result)
+      const customers = items.filter(isPendingItem).map((item) => item.customer)
+      const context = buildCustomersContext(customers, lang)
+      const reply = await chatCompletion([
+        { role: "system", content: SYSTEM_PROMPT[lang] },
+        { role: "user", content: context },
+      ])
+      setPlan(reply)
     } catch (err) {
-      if (err instanceof AiRequestError) {
-        if (err.kind === "auth") setError(t("ai.invalidKey"))
-        else if (err.kind === "rate_limit") setError(t("ai.rateLimited"))
-        else setError(t("ai.apiError"))
-      } else {
-        setError(t("ai.apiError"))
-      }
+      setError(err instanceof LlmRequestError && err.rateLimited ? t("ai.rateLimited") : t("ai.apiError"))
     } finally {
       setLoading(false)
     }
   }
+
+  useEffect(() => {
+    void generate()
+    // Run once when the modal opens; `generate` reads the latest `items` via closure.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   return (
     <Modal title={t("ai.title")} onClose={onClose}>
       <div className="flex flex-col gap-4">
         <p className="text-sm text-stone-500 dark:text-stone-400">{t("ai.explainer")}</p>
 
-        <label className="flex flex-col gap-1 text-sm text-stone-600 dark:text-stone-300">
-          {t("ai.apiKeyLabel")}
-          <input
-            type="password"
-            value={apiKey}
-            onChange={(e) => setApiKey(e.target.value)}
-            placeholder="sk-ant-..."
-            className="ltr-nums rounded-lg border border-stone-300 px-3 py-2 text-left dark:border-stone-700 dark:bg-stone-900 dark:text-stone-100"
-          />
-        </label>
-
+        {loading && <p className="text-sm text-stone-400 dark:text-stone-500">{t("ai.generating")}</p>}
         {error && <p className="text-sm text-red-600 dark:text-red-400">{error}</p>}
 
         {plan && (
@@ -78,13 +54,14 @@ export function AiDayPlanModal({ items, onClose }: { items: DayViewItem[]; onClo
           </div>
         )}
 
-        <button
-          onClick={handleGenerate}
-          disabled={loading || !apiKey.trim()}
-          className="w-full rounded-xl bg-teal-700 py-3 font-medium text-white disabled:opacity-50 dark:bg-teal-600"
-        >
-          {loading ? t("ai.generating") : t("ai.generate")}
-        </button>
+        {!loading && (
+          <button
+            onClick={generate}
+            className="w-full rounded-xl bg-teal-700 py-3 font-medium text-white dark:bg-teal-600"
+          >
+            {t("ai.generate")}
+          </button>
+        )}
       </div>
     </Modal>
   )
